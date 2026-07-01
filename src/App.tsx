@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ShadowCursor from "./functions/ShadowCursor";
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
@@ -11,25 +11,35 @@ import Informations from "./components/Informations";
 import EducationComponent from "./components/EducationComponent";
 import ExperienceComponent from "./components/ExperienceComponent";
 import Certification from "./components/Certification";
+import ProjectComponent from "./components/ProjectComponent";
 
+type MenuState = {
+  about: number,
+  education: number,
+  experience: number,
+  projects: number,
+  certifications: number
+}
 
+const SECTION_MENU_MAP: { id: string; menu: keyof MenuState }[] = [
+  { id: 'about', menu: 'about' },
+  { id: 'education', menu: 'education' },
+  { id: 'experiences', menu: 'experience' },
+  { id: 'certifications', menu: 'certifications' },
+  { id: 'projects', menu: 'projects' },
+];
+
+function createSelectedMenu(menuName: keyof MenuState): MenuState {
+  return { about: 0, education: 0, experience: 0, projects: 0, certifications: 0, [menuName]: 1 };
+}
 
 export default function App() {
+  const rightColumnRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({x: 0, y:0});
-  const [selectedMenu, setSelectedMenu] = useState<MenuState>({about: 1, education:0, experience: 0, projects: 0, certifications: 0});
-
-  type MenuState = {
-    about: number,
-    education: number,
-    experience: number,
-    projects: number,
-    certifications: number
-  }
+  const [selectedMenu, setSelectedMenu] = useState<MenuState>(createSelectedMenu('about'));
 
   function isSelected(menuName: keyof MenuState) {
-    const newSelectedMenu = { about: 0, education: 0, experience: 0, projects: 0, certifications: 0 };
-    newSelectedMenu[menuName] = 1;
-    setSelectedMenu(newSelectedMenu);
+    setSelectedMenu(createSelectedMenu(menuName));
   }
 
   useEffect(() =>{
@@ -43,6 +53,58 @@ export default function App() {
     window.addEventListener('mousemove', handleMouseMove);
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  useEffect(() => {
+    const scrollContainer = rightColumnRef.current;
+    if (!scrollContainer) return;
+
+    const updateActiveSection = () => {
+      const containerTop = scrollContainer.getBoundingClientRect().top;
+      const scrollOffset = 120;
+      const isAtBottom =
+        scrollContainer.scrollHeight - scrollContainer.scrollTop - scrollContainer.clientHeight < 50;
+
+      const resolveActiveMenu = (): keyof MenuState => {
+        if (isAtBottom) {
+          return SECTION_MENU_MAP[SECTION_MENU_MAP.length - 1].menu;
+        }
+
+        let activeMenu: keyof MenuState = 'about';
+
+        for (const { id, menu } of SECTION_MENU_MAP) {
+          const section = document.getElementById(id);
+          if (!section) continue;
+
+          const sectionTop = section.getBoundingClientRect().top - containerTop;
+          if (sectionTop <= scrollOffset) {
+            activeMenu = menu;
+          }
+        }
+
+        return activeMenu;
+      };
+
+      const activeMenu = resolveActiveMenu();
+
+      setSelectedMenu((current) => {
+        const next = createSelectedMenu(activeMenu);
+        const isSameSelection = (Object.keys(next) as (keyof MenuState)[]).every(
+          (key) => current[key] === next[key]
+        );
+
+        return isSameSelection ? current : next;
+      });
+    };
+
+    updateActiveSection();
+    scrollContainer.addEventListener('scroll', updateActiveSection, { passive: true });
+    window.addEventListener('resize', updateActiveSection);
+
+    return () => {
+      scrollContainer.removeEventListener('scroll', updateActiveSection);
+      window.removeEventListener('resize', updateActiveSection);
     };
   }, []);
 
@@ -105,7 +167,7 @@ export default function App() {
                           <div className={`MenuLine ${selectedMenu.projects === 1 ? 'expanded' : ''}`} />
                           </div>
                           <div className="col p-1 text-start">
-                            <span className="menuItem">PROJECTS</span>
+                            <a href="#projects" className="menuItem">PROJECTS</a>
                             </div>
                           </div>
                           <div className="row mt-5">
@@ -116,6 +178,7 @@ export default function App() {
                             </div>
                           </div>
                     </div>
+                    <h6 className="textInfo">Created with React & Vite!</h6>
                 </div>
             </div>
           </div>
@@ -124,7 +187,7 @@ export default function App() {
 
           {/* ABOUT */}
           
-          <div className="col-lg-7 p-5 rightsideOfCol">
+          <div className="col-lg-7 p-5 rightsideOfCol" ref={rightColumnRef}>
             <div id="about" className="row mb-5">
             
               <div className="d-flex justify-content-center h-100">
@@ -222,6 +285,42 @@ export default function App() {
                   Learnings={["Gain insights about what cybersecurity all about.", "Meet different people working in cybersecurity field.", "Talk about what different tools that they are using."]}
                 />
               </div>
+            </div>
+
+            {/* PROJECTS */}
+            
+            <div id="projects" className="row mb-5 p-5 d-flex justify-content-center">
+
+            <ProjectComponent
+                image={"./src/assets/imgs/lamoto_preview.png"}
+                projectName="Point of Sale System for LA moto"
+                projectLink={{ link: "http://lamotoofficialstore.com/", linkTitle: "View Site" }}
+                description="LA Moto promotional page and point of sale system for a motorcycle store.
+                It allows the store to manage their inventory, sales, and customers."
+                technologyUsed={["PHP", "MySQL", "HTML", "CSS", "JavaScript"]}
+              />
+
+              <ProjectComponent
+                image={"./src/assets/imgs/iqueue_preview.png"}
+                projectName="IQueue"
+                projectLink={{ link: "https://www.canva.com/design/DAGE1h5rUS4/IMFgRMbR4zK9R4ZGyw-vzA/edit", linkTitle: "Manual" }}
+                description="iQueue automates queuing at La Concepcion College’s cashier
+                and registrar offices using IoT to collect data from hardware devices
+                and store it in cloud databases, thereby enhancing data centralization
+                and access."
+                technologyUsed={["Java", "Javascript", "CSS", "AJAX", "SQL"]}
+              />
+
+              <ProjectComponent
+                image={"./src/assets/imgs/heart_guide_preview.jpg"}
+                projectName="Blood Pressure Journal"
+                projectLink={{ link: "https://drive.google.com/file/d/1_BJzxiS_rGwCF6-FkR-JbUAKvPnI2pUK/view", linkTitle: "View Frontend" }}
+                description="Heart Guide is a blood pressure journal application intended for 
+                use at the Barangay Health Center in Sto. Cristo, San Jose Del Monte, Bulacan.
+                 It allows patients to effectively monitor their blood pressure and includes a 
+                 statistical reporting feature to aid in medical consultations."
+                technologyUsed={["Java", "SQL"]}
+              />
             </div>
           </div>
         </div>

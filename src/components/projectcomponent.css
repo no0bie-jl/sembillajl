@@ -1,0 +1,29 @@
+:root{
+    --DefualtFontColor: rgb(139, 191, 252);
+    --DescriptionFontColor: rgb(202, 225, 248);
+}
+
+.card{
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.skills{
+    display: inline-block;
+    white-space: nowrap;
+    padding: 4px 10px;
+    background: rgba(28, 241, 231, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(124, 148, 224, 0.3);
+    color: rgb(136, 218, 250);
+}
+
+#ProjectIcon{
+    max-width: 100%;
+    height: auto;
+}

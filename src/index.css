@@ -43,6 +43,10 @@ body{
     overflow: hidden;
 }
 
+.textInfo{
+    color: var(--DefualtFontColor);
+}
+
 .leftsideOfCol{
     height: 100vh;
     overflow: hidden;
