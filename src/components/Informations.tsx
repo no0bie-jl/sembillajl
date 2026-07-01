@@ -2,21 +2,22 @@ function informations() {
     return(
         <>
         <p>
-            In 2019, I served as the lead programmer in a research project
-            developing a library system for Bulacan College of Commerce and
-            Trade. Using Visual Basic Studio as the IDE, VB.NET for both 
-            backend and frontend, and SQL for the database, we aimed to 
-            streamline library transactions. This experience motivated me to 
-            pursue a related course in college. Throughout college, I consistently 
-            led group projects, honing my skills. I am eager to learn new technologies 
-            required for the job and have proven to be a team player. Please see the
-            project section to view more of my projects!
+            I am a Full Stack Developer with 1 year and 6 months of professional experience
+            building and maintaining software applications. I am a dedicated individual
+            with a strong enthusiasm for developing scalable and efficient solutions and
+            am actively seeking new opportunities to bring my skills and experience to
+            a forward-thinking organization. My core stack includes JavaScript for
+            application development, SQL and NoSQL databases for data management,
+            and AWS for cloud solutions.
         </p>
 
         <p>
-            Now, That I'm graduating I can say that I'm ready to what's ahead
-            and embark a new Journey in my choosen field! My core stack includes Java for software
-            development and PHP, Bootstrap, and Javascript for web development.
+            My journey in software development began in 2019 when I led the development of
+            a library management system for Bulacan College of Commerce and Trade using
+            VB.NET and SQL. That experience inspired me to pursue a career in technology
+            and develop my leadership and teamwork skills through various college projects.
+            Today, I am a dedicated developer who thrives in collaborative environments and
+            is always eager to learn and adapt to new technologies.
         </p>
 
         <p>
