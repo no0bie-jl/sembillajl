@@ -5,9 +5,9 @@ import './linksocials.css';
 function LinkSocials(){
     return(
         <div className="p-2 d-flex">
-            <span className='iconSocials'><a href="#"><FaLinkedin/></a></span>
-            <span className='iconSocials'><a href="#"><FaSquareInstagram/></a></span>
-            <span className='iconSocials'><a href="#"><MdEmail/></a></span>
+            <span className='iconSocials'><a href="linkedin.com/in/sembilla/"><FaLinkedin/></a></span>
+            <span className='iconSocials'><a href="instagram.com/lyodiiii/"><FaSquareInstagram/></a></span>
+            <span className='iconSocials'><a href="mailto:johnlyodsembilla02@gmail.com"><MdEmail/></a></span>
         </div>
     );
 }; export default LinkSocials
